@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool check_bipartite(int node, vector<int> &vis, vector<int> adj[])
+    {
+        queue<pair<int, int>> q;
+        int color = 0;
+        vis[node] = color;
+        q.push({node, color});
+        while(!q.empty())
+        {
+            node = q.front().first;
+            color = q.front().second;
+            q.pop();
+            for(auto it: adj[node])
+            {
+                if(vis[it] == -1)
+                {
+                    q.push({it, !color});
+                    vis[it] = !color;
+                }
+                else if(vis[it] == color)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+	bool isBipartite(int V, vector<int>adj[]){
+	    // Code here
+	    vector<int> vis(V+1,-1);
+	    
+	    for(int i = 1;i<= V;i++)
+	    {
+	        if(vis[i] == -1)
+	        {
+	            if(check_bipartite(i, vis, adj))
+	                return true;
+	        }
+	    }
+	
+	    return false;
+	}
+
+};
