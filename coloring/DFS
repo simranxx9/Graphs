@@ -9,7 +9,7 @@ public:
             if(vis[it] == -1)
             {
                 vis[it] = 1 - vis[node] ;
-                check_bipartite(it, vis, adj, node);
+                if(check_bipartite(it, vis, adj, node)) return true;
                 
             }
             else if(vis[it] == vis[node])
