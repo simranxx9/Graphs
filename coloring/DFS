@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool check_bipartite(int node, vector<int> &vis, vector<int> adj[], int parent)
+    {
+        if(vis[node] == -1) vis[node] = 1;
+        
+        for(auto it : adj[node])
+        {
+            if(vis[it] == -1)
+            {
+                vis[it] = 1 - vis[node] ;
+                check_bipartite(it, vis, adj, node);
+                
+            }
+            else if(vis[it] == vis[node])
+                return false;
+        }
+        return true;
+    }
+
+	bool isBipartite(int V, vector<int>adj[]){
+	    // Code here
+	    vector<int> vis(V+1,-1);
+	    
+	    for(int i = 1;i<= V;i++)
+	    {
+	        if(vis[i] == -1)
+	        {
+	            if(!check_bipartite(i, vis, adj, -1))
+	                return false;
+	        }
+	    }
+	
+	    return true;
+	}
+
+};
