@@ -1,0 +1,29 @@
+vector <int> dijkstra(int V, vector<pair<int, int>> adj[], int S)
+    {
+        // Code here
+        vector<int> v;
+        priority_queue< pair<int, int>, vector<pair<int, int>> , greater<pair<int, int>>
+        > pq;
+        pq.push({0, S});
+        vector<int> vis(V, INT_MAX);
+        
+        while(!pq.empty())
+        {
+            int dis = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+            for(auto it= adj[node].begin(); it != adj[node].end(); it++)
+            {
+                int node_adj = it->first;
+                int weight = it -> second;
+                if(vis[node_adj] > vis[node] + weight)
+                {
+                    vis[node_adj] = vis[node] + weight;
+                    pq.push(make_pair(vis[node_adj], node_adj));
+                    
+                }
+            }
+        }
+        return vis;
+        
+    }
