@@ -1,0 +1,43 @@
+int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here
+        vector<int> dist(V, INT_MAX);
+        vector<bool> mst(V, false);
+        vector<int> parent(V, -1);
+        priority_queue<pair<int, int>, vector<pair<int,int>>, greater<pair<int, int>>
+        > pq;
+        
+        dist[0] = 0; 
+        pq.push({0,0});
+        for(int i = 0; i <V-1; i++)
+        {
+            
+            // find minimum in distance array
+            int u = pq.top().second;
+            
+            pq.pop();
+            mst[u] = true;
+            for(auto it: adj[u])
+            {
+                int v = it[0];
+                int w = it[1];
+                if(!mst[v] && dist[v] > w)
+                {
+                 
+                    parent[v] = u;
+                    dist[v] = w ;
+                    pq.push({dist[v], v});
+                    
+                }
+            }
+        }
+        int distance = 0;
+        for(int it: dist)
+        {
+           
+            distance += it;
+            
+        }
+       
+        return distance;
+    }
