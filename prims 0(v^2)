@@ -1,0 +1,41 @@
+int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here
+        vector<int> dist(V, INT_MAX);
+        vector<bool> mst(V, false);
+        vector<int> parent(V, -1);
+        
+        dist[0] = 0; 
+        for(int i = 0; i <V; i++)
+        {
+            int mini = INT_MAX, u;
+            // find minimum in distance array
+            for(int j = 0; j < V; j ++ )
+            {
+                if(!mst[j] && mini > dist[j])
+                {
+                    u = j;
+                }
+            }
+            mst[u] = true;
+            for(auto it: adj[u])
+            {
+                int v = it[0];
+                int w = it[1];
+                if(!mst[v] && dist[v] > w)
+                {
+                    parent[v] = u;
+                    dist[v] = w ;
+                }
+            }
+        }
+        int distance = 0;
+        for(int it: dist)
+        {
+            cout<<it<<" ";
+            distance += it;
+            
+        }
+        cout<<endl;
+        return distance;
+    }
