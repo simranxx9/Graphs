@@ -1,29 +1,68 @@
-vector <int> dijkstra(int V, vector<pair<int, int>> adj[], int S)
+#include<bits/stdc++.h>
+using namespace std;
+void dfs(vector<vector<int>> adj[], int node, vector<int> &visited, stack<int> &s)
+{
+    visited[node] = 1;
+    for(auto it: adj[node])
     {
-        // Code here
-        vector<int> v;
-        priority_queue< pair<int, int>, vector<pair<int, int>> , greater<pair<int, int>>
-        > pq;
-        pq.push({0, S});
-        vector<int> vis(V, INT_MAX);
+        int v = it[0];
+        int w = it[1];
+        if(!visited[v])
+        {
+            dfs(adj, v, visited, s);
+        }
+    }
+    s.push(node);
+}
+
+
+vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+      
+        vector<int> dist(V, INT_MAX);
         
+        // using min heap
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > pq;
+        pq.push({0,S});
+        dist[S] = 0;
         while(!pq.empty())
         {
-            int dis = pq.top().first;
-            int node = pq.top().second;
+            auto p = pq.top();
+            int dis = p.first;
+            int node = p.second;
             pq.pop();
-            for(auto it= adj[node].begin(); it != adj[node].end(); it++)
+            for(auto it: adj[node])
             {
-                int node_adj = it->first;
-                int weight = it -> second;
-                if(vis[node_adj] > vis[node] + weight)
+                int v= it[0];
+                int w = it[1];
+                
+               if( dist[v] >dis + w)
                 {
-                    vis[node_adj] = vis[node] + weight;
-                    pq.push(make_pair(vis[node_adj], node_adj));
-                    
+                     dist[v] = dis + w;
+                    pq.push({dist[v], v});
                 }
             }
+            
         }
-        return vis;
-        
+        return dist;
     }
+
+int main()
+{
+    int n, m;
+    cin>>n>>m;
+    vector<vector<int>> adj[n];
+    int u, v, w;
+    for(int i = 0; i < m; i++)
+    {
+        cin>>u>>v>>w;
+        adj[u].push_back({v,w});
+    }
+    vector<int> res = dijkstra(n, adj,1);
+    for(auto it: res)
+    {
+        cout<<it<<" ";
+    }
+    cout<<endl;
+    return 0;
+}
